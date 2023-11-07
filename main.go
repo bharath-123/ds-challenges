@@ -40,7 +40,7 @@ type ReadResponse struct {
 
 func main() {
 	n := maelstrom.NewNode()
-	messages := []int{}
+	messages := map[int]bool{}
 	networkTopology := NetworkTopology{Nodes: map[string][]string{}}
 
 	n.Handle("broadcast", func(msg maelstrom.Message) error {
@@ -50,7 +50,7 @@ func main() {
 			return err
 		}
 
-		messages = append(messages, body.Message)
+		messages[body.Message] = true
 
 		// Update the message type to return back.
 		response := BroadcastResponse{Type: "broadcast_ok"}
@@ -66,10 +66,15 @@ func main() {
 			return err
 		}
 
+		messageRes := []int{}
+		for k, _ := range messages {
+			messageRes = append(messageRes, k)
+		}
+
 		// Update the message type to return back.
 		response := ReadResponse{
 			Type:     "read_ok",
-			Messages: messages,
+			Messages: messageRes,
 		}
 
 		// Echo the original message back with the updated message type.
