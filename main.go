@@ -7,21 +7,89 @@ import (
 	maelstrom "github.com/jepsen-io/maelstrom/demo/go"
 )
 
+type NetworkTopology struct {
+	Nodes map[string][]string `json:"nodes"`
+}
+
+type NetworkTopologyBody struct {
+	Type     string              `json:"type"`
+	Topology map[string][]string `json:"topology"`
+}
+
+type NetworkTopologyResponse struct {
+	Type string `json:"type"`
+}
+
+type BroadcastBody struct {
+	Type    string `json:"type"`
+	Message int    `json:"message"`
+}
+
+type BroadcastResponse struct {
+	Type string `json:"type"`
+}
+
+type ReadBody struct {
+	Type string `json:"type"`
+}
+
+type ReadResponse struct {
+	Type     string `json:"type"`
+	Messages []int  `json:"messages"`
+}
+
 func main() {
 	n := maelstrom.NewNode()
+	messages := []int{}
+	networkTopology := NetworkTopology{Nodes: map[string][]string{}}
 
-	n.Handle("echo", func(msg maelstrom.Message) error {
+	n.Handle("broadcast", func(msg maelstrom.Message) error {
 		// Unmarshal the message body as an loosely-typed map.
-		var body map[string]any
+		var body BroadcastBody
+		if err := json.Unmarshal(msg.Body, &body); err != nil {
+			return err
+		}
+
+		messages = append(messages, body.Message)
+
+		// Update the message type to return back.
+		response := BroadcastResponse{Type: "broadcast_ok"}
+
+		// Echo the original message back with the updated message type.
+		return n.Reply(msg, response)
+	})
+
+	n.Handle("read", func(msg maelstrom.Message) error {
+		// Unmarshal the message body as a loosely-typed map.
+		var body ReadBody
 		if err := json.Unmarshal(msg.Body, &body); err != nil {
 			return err
 		}
 
 		// Update the message type to return back.
-		body["type"] = "echo_ok"
+		response := ReadResponse{
+			Type:     "read_ok",
+			Messages: messages,
+		}
 
 		// Echo the original message back with the updated message type.
-		return n.Reply(msg, body)
+		return n.Reply(msg, response)
+	})
+
+	n.Handle("topology", func(msg maelstrom.Message) error {
+		// Unmarshal the message body as an loosely-typed map.
+		var body NetworkTopologyBody
+		if err := json.Unmarshal(msg.Body, &body); err != nil {
+			return err
+		}
+
+		networkTopology.Nodes = body.Topology
+
+		// Update the message type to return back.
+		response := NetworkTopologyResponse{Type: "topology_ok"}
+
+		// Echo the original message back with the updated message type.
+		return n.Reply(msg, response)
 	})
 
 	if err := n.Run(); err != nil {
