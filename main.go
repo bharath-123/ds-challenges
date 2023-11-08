@@ -3,6 +3,8 @@ package main
 import (
 	"encoding/json"
 	"log"
+	"math"
+	"math/rand"
 	"sync"
 	"time"
 
@@ -69,11 +71,13 @@ func main() {
 			return err
 		}
 
-		messageMutex.Lock()
-		for _, v := range body.Messages {
-			messages[v] = true
-		}
-		messageMutex.Unlock()
+		go func() {
+			messageMutex.Lock()
+			for _, v := range body.Messages {
+				messages[v] = true
+			}
+			messageMutex.Unlock()
+		}()
 
 		return nil
 	})
@@ -138,14 +142,38 @@ func main() {
 
 	go func() {
 		for {
-			nodeIds := n.NodeIDs()
 			messagesToBroadcast := []int{}
 			messageMutex.RLock()
 			for k, _ := range messages {
 				messagesToBroadcast = append(messagesToBroadcast, k)
 			}
 			messageMutex.RUnlock()
-			for _, id := range nodeIds {
+			sqrtNodeIds := math.Sqrt(float64(len(n.NodeIDs())))
+			nodesToBroadcast := []string{}
+			for i := 0; i < int(sqrtNodeIds); i++ {
+				randomIndex := rand.Intn(len(n.NodeIDs()))
+				nodesToBroadcast = append(nodesToBroadcast, n.NodeIDs()[randomIndex])
+			}
+			//curNodeSiblings := networkTopology.Nodes[n.ID()]
+			//i := 0
+			//for {
+			//	if len(curNodeSiblings) == 0 {
+			//		break
+			//	}
+			//	firstSibling := curNodeSiblings[0]
+			//	curNodeSiblings = networkTopology.Nodes[firstSibling]
+			//	nodesToBroadcast = append(nodesToBroadcast, firstSibling)
+			//	i += 1
+			//	if i == 2 {
+			//		break
+			//	}
+			//}
+
+			//nodeIds := n.NodeIDs()
+			for _, id := range nodesToBroadcast {
+				if id == n.ID() {
+					continue
+				}
 				err := n.Send(id, BulkBroadcastBody{
 					Type:     "bulk_broadcast",
 					Messages: messagesToBroadcast,
