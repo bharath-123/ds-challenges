@@ -67,7 +67,7 @@ func main() {
 		opLog = append(opLog, body.Delta)
 		opLogMutex.Unlock()
 
-		err = kv.CompareAndSwap(context.Background(), KEY_NAME, val, newVal, true)
+		err = kv.Write(context.Background(), KEY_NAME, newVal)
 		if err != nil {
 			return err
 		}
@@ -84,7 +84,9 @@ func main() {
 			return err
 		}
 
-		val, err := kv.ReadInt(context.Background(), KEY_NAME)
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		val, err := kv.ReadInt(ctx, KEY_NAME)
 		errCode := maelstrom.ErrorCode(err)
 		if errCode == 20 {
 			val = 0
@@ -115,7 +117,7 @@ func main() {
 		opLogMutex.RUnlock()
 
 		if currOplogLen > len(rcvdOplog) {
-			return n.Reply(msg, OplogResponse{Type: "recv_oplog_ok"})
+			return nil
 		}
 
 		newValue := 0
@@ -128,12 +130,16 @@ func main() {
 			return err
 		}
 
-		err = kv.CompareAndSwap(context.Background(), KEY_NAME, currentValue, newValue, true)
+		if newValue < currentValue {
+			return nil
+		}
+
+		err = kv.Write(context.Background(), KEY_NAME, newValue)
 		if err != nil {
 			return err
 		}
 
-		return n.Reply(msg, OplogResponse{Type: "recv_oplog_ok"})
+		return nil
 	})
 
 	go func() {
