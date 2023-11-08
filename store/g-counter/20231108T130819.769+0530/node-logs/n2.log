@@ -1,0 +1,28 @@
+2023/11/08 13:08:22 Received {c1 n2 {"type":"init","node_id":"n2","node_ids":["n0","n1","n2"],"msg_id":1}}
+2023/11/08 13:08:22 Node n2 initialized
+2023/11/08 13:08:22 Sent {"src":"n2","dest":"c1","body":{"in_reply_to":1,"type":"init_ok"}}
+2023/11/08 13:08:22 Received {c7 n2 {"type":"read","msg_id":1}}
+2023/11/08 13:08:22 Sent {"src":"n2","dest":"seq-kv","body":{"key":"key","msg_id":1,"type":"read"}}
+2023/11/08 13:08:22 Received {seq-kv n2 {"type":"error","code":20,"text":"key does not exist","in_reply_to":1}}
+2023/11/08 13:08:22 Sent {"src":"n2","dest":"c7","body":{"in_reply_to":1,"type":"read_ok","value":0}}
+2023/11/08 13:08:22 Received {c7 n2 {"delta":1,"type":"add","msg_id":2}}
+2023/11/08 13:08:22 Sent {"src":"n2","dest":"seq-kv","body":{"key":"key","msg_id":2,"type":"read"}}
+2023/11/08 13:08:22 Received {seq-kv n2 {"type":"error","code":20,"text":"key does not exist","in_reply_to":2}}
+2023/11/08 13:08:22 Sent {"src":"n2","dest":"seq-kv","body":{"create_if_not_exists":true,"from":0,"key":"key","msg_id":3,"to":1,"type":"cas"}}
+2023/11/08 13:08:22 Received {seq-kv n2 {"type":"error","code":22,"text":"current value 4 is not 0","in_reply_to":3}}
+2023/11/08 13:08:22 Sent {"src":"n2","dest":"c7","body":{"code":22,"in_reply_to":2,"text":"current value 4 is not 0","type":"error"}}
+2023/11/08 13:08:23 Received {c10 n2 {"type":"read","msg_id":1}}
+2023/11/08 13:08:23 Sent {"src":"n2","dest":"seq-kv","body":{"key":"key","msg_id":4,"type":"read"}}
+2023/11/08 13:08:23 Received {seq-kv n2 {"type":"read_ok","value":4,"in_reply_to":4}}
+2023/11/08 13:08:28 Received {c13 n2 {"delta":4,"type":"add","msg_id":1}}
+2023/11/08 13:08:28 Sent {"src":"n2","dest":"seq-kv","body":{"key":"key","msg_id":5,"type":"read"}}
+2023/11/08 13:08:28 Received {seq-kv n2 {"type":"read_ok","value":4,"in_reply_to":5}}
+2023/11/08 13:08:33 Received {c16 n2 {"type":"read","msg_id":1}}
+2023/11/08 13:08:33 Sent {"src":"n2","dest":"seq-kv","body":{"key":"key","msg_id":6,"type":"read"}}
+2023/11/08 13:08:33 Received {seq-kv n2 {"type":"read_ok","value":4,"in_reply_to":6}}
+2023/11/08 13:08:38 Received {c19 n2 {"type":"read","msg_id":1}}
+2023/11/08 13:08:38 Sent {"src":"n2","dest":"seq-kv","body":{"key":"key","msg_id":7,"type":"read"}}
+2023/11/08 13:08:38 Received {seq-kv n2 {"type":"read_ok","value":4,"in_reply_to":7}}
+2023/11/08 13:08:53 Received {c20 n2 {"type":"read","msg_id":1}}
+2023/11/08 13:08:53 Sent {"src":"n2","dest":"seq-kv","body":{"key":"key","msg_id":8,"type":"read"}}
+2023/11/08 13:08:53 Received {seq-kv n2 {"type":"read_ok","value":4,"in_reply_to":8}}

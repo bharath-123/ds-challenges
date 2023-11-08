@@ -1,0 +1,23 @@
+2023/11/08 13:13:51 Received {c2 n0 {"type":"init","node_id":"n0","node_ids":["n0","n1","n2"],"msg_id":1}}
+2023/11/08 13:13:51 Node n0 initialized
+2023/11/08 13:13:51 Sent {"src":"n0","dest":"c2","body":{"in_reply_to":1,"type":"init_ok"}}
+2023/11/08 13:13:51 Received {c7 n0 {"type":"read","msg_id":1}}
+2023/11/08 13:13:51 Sent {"src":"n0","dest":"seq-kv","body":{"key":"key","msg_id":1,"type":"read"}}
+2023/11/08 13:13:51 Received {seq-kv n0 {"type":"error","code":20,"text":"key does not exist","in_reply_to":1}}
+2023/11/08 13:13:51 Sent {"src":"n0","dest":"c7","body":{"in_reply_to":1,"type":"read_ok","value":0}}
+2023/11/08 13:13:51 Received {c7 n0 {"type":"read","msg_id":2}}
+2023/11/08 13:13:51 Sent {"src":"n0","dest":"seq-kv","body":{"key":"key","msg_id":2,"type":"read"}}
+2023/11/08 13:13:51 Received {seq-kv n0 {"type":"error","code":20,"text":"key does not exist","in_reply_to":2}}
+2023/11/08 13:13:51 Sent {"src":"n0","dest":"c7","body":{"in_reply_to":2,"type":"read_ok","value":0}}
+2023/11/08 13:13:51 Received {c7 n0 {"delta":2,"type":"add","msg_id":3}}
+2023/11/08 13:13:51 Sent {"src":"n0","dest":"seq-kv","body":{"key":"key","msg_id":3,"type":"read"}}
+2023/11/08 13:13:51 Received {seq-kv n0 {"type":"error","code":20,"text":"key does not exist","in_reply_to":3}}
+2023/11/08 13:13:51 Sent {"src":"n0","dest":"seq-kv","body":{"create_if_not_exists":true,"from":0,"key":"key","msg_id":4,"to":2,"type":"cas"}}
+2023/11/08 13:13:51 Received {seq-kv n0 {"type":"cas_ok","in_reply_to":4}}
+2023/11/08 13:13:51 Sent {"src":"n0","dest":"c7","body":{"in_reply_to":3,"type":"add_ok"}}
+2023/11/08 13:13:51 Received {c7 n0 {"type":"read","msg_id":4}}
+2023/11/08 13:13:51 Sent {"src":"n0","dest":"seq-kv","body":{"key":"key","msg_id":5,"type":"read"}}
+2023/11/08 13:13:51 Received {seq-kv n0 {"type":"read_ok","value":2,"in_reply_to":5}}
+2023/11/08 13:13:56 Received {c11 n0 {"type":"read","msg_id":1}}
+2023/11/08 13:13:56 Sent {"src":"n0","dest":"seq-kv","body":{"key":"key","msg_id":6,"type":"read"}}
+2023/11/08 13:13:56 Received {seq-kv n0 {"type":"read_ok","value":2,"in_reply_to":6}}

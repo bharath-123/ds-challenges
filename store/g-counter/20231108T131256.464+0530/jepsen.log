@@ -1,0 +1,719 @@
+2023-11-08 13:12:56,644{GMT}	INFO	[jepsen test runner] jepsen.core: Test version db0b84b904f48013b07ebd7cf626cfcde6dfe91b (plus uncommitted changes)
+2023-11-08 13:12:56,645{GMT}	INFO	[jepsen test runner] jepsen.core: Command line:
+lein run test -w g-counter --bin maelstrom-echo --node-count 3 --rate 100 --time-limit 20 --nemesis partition
+2023-11-08 13:12:56,775{GMT}	INFO	[jepsen test runner] jepsen.core: Running test:
+{:args []
+ :remote
+ #jepsen.control.retry.Remote{:remote #jepsen.control.scp.Remote{:cmd-remote #jepsen.control.sshj.SSHJRemote{:concurrency-limit 6,
+                                                                                                             :conn-spec nil,
+                                                                                                             :client nil,
+                                                                                                             :semaphore nil},
+                                                                 :conn-spec nil},
+                              :conn nil}
+ :log-net-send false
+ :node-count 3
+ :availability nil
+ :max-txn-length 4
+ :concurrency 3
+ :db
+ #object[maelstrom.db$db$reify__16142
+         "0x3c634a04"
+         "maelstrom.db$db$reify__16142@3c634a04"]
+ :max-writes-per-key 16
+ :leave-db-running? false
+ :name "g-counter"
+ :logging-json? false
+ :start-time
+ #object[org.joda.time.DateTime "0x10c26161" "2023-11-08T13:12:56.464+05:30"]
+ :nemesis-interval 10
+ :net
+ #object[maelstrom.net$jepsen_net$reify__15251
+         "0x1ef6977b"
+         "maelstrom.net$jepsen_net$reify__15251@1ef6977b"]
+ :client
+ #object[maelstrom.workload.pn_counter$client$reify__19540
+         "0x674cd2da"
+         "maelstrom.workload.pn_counter$client$reify__19540@674cd2da"]
+ :barrier
+ #object[java.util.concurrent.CyclicBarrier
+         "0x686279e0"
+         "java.util.concurrent.CyclicBarrier@686279e0"]
+ :log-stderr false
+ :pure-generators true
+ :ssh {:dummy? true}
+ :rate 100.0
+ :checker
+ #object[jepsen.checker$compose$reify__11881
+         "0x6b28d4e4"
+         "jepsen.checker$compose$reify__11881@6b28d4e4"]
+ :argv
+ ("test"
+  "-w"
+  "g-counter"
+  "--bin"
+  "maelstrom-echo"
+  "--node-count"
+  "3"
+  "--rate"
+  "100"
+  "--time-limit"
+  "20"
+  "--nemesis"
+  "partition")
+ :nemesis
+ (jepsen.nemesis.ReflCompose
+  {:fm {:start-partition 0,
+        :stop-partition 0,
+        :kill 1,
+        :start 1,
+        :pause 1,
+        :resume 1},
+   :nemeses [#unprintable "jepsen.nemesis.combined$partition_nemesis$reify__16416@41cfcbb5"
+             #unprintable "jepsen.nemesis.combined$db_nemesis$reify__16397@40941b54"]})
+ :nodes ["n0" "n1" "n2"]
+ :test-count 1
+ :latency {:mean 0, :dist :constant}
+ :bin "maelstrom-echo"
+ :generator
+ ((jepsen.generator.Synchronize
+   {:gen (jepsen.generator.TimeLimit
+          {:limit 20000000000,
+           :cutoff nil,
+           :gen (jepsen.generator.Any
+                 {:gens [(jepsen.generator.OnThreads
+                          {:f #{:nemesis},
+                           :context-filter #object[jepsen.generator.context$make_thread_filter$lazy_filter__9167
+                                                   "0xd15f98a"
+                                                   "jepsen.generator.context$make_thread_filter$lazy_filter__9167@d15f98a"],
+                           :gen (jepsen.generator.Stagger
+                                 {:dt 20000000000,
+                                  :next-time nil,
+                                  :gen (jepsen.generator.FlipFlop
+                                        {:gens [#object[jepsen.nemesis.combined$partition_package$start__16420
+                                                        "0x704c3ca2"
+                                                        "jepsen.nemesis.combined$partition_package$start__16420@704c3ca2"]
+                                                ({:type :info,
+                                                  :f :stop-partition,
+                                                  :value nil}
+                                                 {:type :info,
+                                                  :f :stop-partition,
+                                                  :value nil}
+                                                 {:type :info,
+                                                  :f :stop-partition,
+                                                  :value nil}
+                                                 {:type :info,
+                                                  :f :stop-partition,
+                                                  :value nil}
+                                                 {:type :info,
+                                                  :f :stop-partition,
+                                                  :value nil}
+                                                 {:type :info,
+                                                  :f :stop-partition,
+                                                  :value nil}
+                                                 {:type :info,
+                                                  :f :stop-partition,
+                                                  :value nil}
+                                                 {:type :info,
+                                                  :f :stop-partition,
+                                                  :value nil}
+                                                 ...)],
+                                         :i 0})})})
+                         (jepsen.generator.OnThreads
+                          {:f #jepsen.generator.context.AllBut{:element :nemesis},
+                           :context-filter #object[jepsen.generator.context$make_thread_filter$lazy_filter__9167
+                                                   "0x2a2f7a61"
+                                                   "jepsen.generator.context$make_thread_filter$lazy_filter__9167@2a2f7a61"],
+                           :gen (jepsen.generator.Stagger
+                                 {:dt 20000000,
+                                  :next-time nil,
+                                  :gen (jepsen.generator.Filter
+                                        {:f #object[maelstrom.workload.g_counter$workload$fn__19599
+                                                    "0x8d40f07"
+                                                    "maelstrom.workload.g_counter$workload$fn__19599@8d40f07"],
+                                         :gen (jepsen.generator.Mix
+                                               {:i 0,
+                                                :gens [#object[maelstrom.workload.pn_counter$workload$fn__19572
+                                                               "0x196c8b93"
+                                                               "maelstrom.workload.pn_counter$workload$fn__19572@196c8b93"]
+                                                       ({:f :read}
+                                                        {:f :read}
+                                                        {:f :read}
+                                                        {:f :read}
+                                                        {:f :read}
+                                                        {:f :read}
+                                                        {:f :read}
+                                                        {:f :read}
+                                                        ...)]})})})})]})})})
+  (jepsen.generator.Synchronize
+   {:gen (jepsen.generator.OnThreads
+          {:f #{:nemesis},
+           :context-filter #object[jepsen.generator.context$make_thread_filter$lazy_filter__9167
+                                   "0x307ca947"
+                                   "jepsen.generator.context$make_thread_filter$lazy_filter__9167@307ca947"],
+           :gen ({:type :info, :f :stop-partition, :value nil})})})
+  (jepsen.generator.Synchronize
+   {:gen {:type :log, :value "Waiting for recovery..."}})
+  (jepsen.generator.Synchronize {:gen {:type :sleep, :value 10}})
+  (jepsen.generator.Synchronize
+   {:gen (jepsen.generator.OnThreads
+          {:f #jepsen.generator.context.AllBut{:element :nemesis},
+           :context-filter #object[jepsen.generator.context$make_thread_filter$lazy_filter__9167
+                                   "0x61d1315b"
+                                   "jepsen.generator.context$make_thread_filter$lazy_filter__9167@61d1315b"],
+           :gen (jepsen.generator.EachThread
+                 {:fresh-gen {:f :read, :final? true},
+                  :context-filters #object[clojure.core$promise$reify__8591
+                                           "0x49d5b651"
+                                           {:status :pending, :val nil}],
+                  :gens {}})})}))
+ :log-net-recv false
+ :os
+ #object[maelstrom.net$jepsen_os$reify__15254
+         "0x34989ceb"
+         "maelstrom.net$jepsen_os$reify__15254@34989ceb"]
+ :time-limit 20
+ :workload :g-counter
+ :consistency-models [:strict-serializable]
+ :topology :grid}
+
+2023-11-08 13:12:58,549{GMT}	INFO	[jepsen node n0] maelstrom.net: Starting Maelstrom network
+2023-11-08 13:12:58,551{GMT}	INFO	[jepsen test runner] jepsen.db: Tearing down DB
+2023-11-08 13:12:58,553{GMT}	INFO	[jepsen test runner] jepsen.db: Setting up DB
+2023-11-08 13:12:58,554{GMT}	INFO	[jepsen node n1] maelstrom.db: Setting up n1
+2023-11-08 13:12:58,554{GMT}	INFO	[jepsen node n2] maelstrom.db: Setting up n2
+2023-11-08 13:12:58,555{GMT}	INFO	[jepsen node n1] maelstrom.process: launching maelstrom-echo []
+2023-11-08 13:12:58,555{GMT}	INFO	[jepsen node n2] maelstrom.process: launching maelstrom-echo []
+2023-11-08 13:12:58,558{GMT}	INFO	[jepsen node n0] maelstrom.service: Starting services: (lin-kv lin-tso lww-kv seq-kv)
+2023-11-08 13:12:58,561{GMT}	INFO	[jepsen node n0] maelstrom.db: Setting up n0
+2023-11-08 13:12:58,562{GMT}	INFO	[jepsen node n0] maelstrom.process: launching maelstrom-echo []
+2023-11-08 13:12:58,677{GMT}	INFO	[jepsen test runner] jepsen.core: Relative time begins now
+2023-11-08 13:12:58,709{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:add	3
+2023-11-08 13:12:58,709{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start-partition	:minority-third
+2023-11-08 13:12:58,710{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:add	4
+2023-11-08 13:12:58,710{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:add	0
+2023-11-08 13:12:58,718{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start-partition	[:isolated {"n2" #{}, "n1" #{}, "n0" #{}}]
+2023-11-08 13:12:58,718{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:add	3
+2023-11-08 13:12:58,718{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:add	0
+2023-11-08 13:12:58,719{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:add	3
+2023-11-08 13:12:58,734{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:add	3
+2023-11-08 13:12:58,735{GMT}	WARN	[jepsen worker 2] jepsen.generator.interpreter: Process 2 crashed
+clojure.lang.ExceptionInfo: throw+: {:type :rpc-error, :code 22, :name :precondition-failed, :definite? true, :body {:code 22, :in_reply_to 1, :text "current value 3 is not 0", :type "error"}}
+	at slingshot.support$stack_trace.invoke(support.clj:201)
+	at maelstrom.client$throw_errors_BANG_.invokeStatic(client.clj:133)
+	at maelstrom.client$throw_errors_BANG_.invoke(client.clj:125)
+	at maelstrom.client$rpc_BANG_.invokeStatic(client.clj:150)
+	at maelstrom.client$rpc_BANG_.invoke(client.clj:140)
+	at maelstrom.workload.pn_counter$fn__19518$add_BANG___19519.invoke(pn_counter.clj:20)
+	at maelstrom.workload.pn_counter$fn__19518$add_BANG___19519.invoke(pn_counter.clj:20)
+	at maelstrom.workload.pn_counter$client$reify__19540.invoke_BANG_(pn_counter.clj:47)
+	at jepsen.client.Validate.invoke_BANG_(client.clj:83)
+	at jepsen.generator.interpreter.ClientWorker.invoke_BANG_(interpreter.clj:65)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908$fn__12909.invoke(interpreter.clj:140)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908.invoke(interpreter.clj:123)
+	at clojure.core$binding_conveyor_fn$fn__5823.invoke(core.clj:2047)
+	at clojure.lang.AFn.call(AFn.java:18)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2023-11-08 13:12:58,753{GMT}	INFO	[jepsen worker 2] jepsen.util: 5	:invoke	:read	nil
+2023-11-08 13:13:03,723{GMT}	WARN	[jepsen worker 0] jepsen.generator.interpreter: Process 0 crashed
+clojure.lang.ExceptionInfo: Client read timeout
+	at slingshot.support$stack_trace.invoke(support.clj:201)
+	at maelstrom.client$recv_BANG_.invokeStatic(client.clj:98)
+	at maelstrom.client$recv_BANG_.invoke(client.clj:81)
+	at maelstrom.client$send_PLUS_recv_BANG_.invokeStatic(client.clj:123)
+	at maelstrom.client$send_PLUS_recv_BANG_.invoke(client.clj:119)
+	at maelstrom.client$rpc_BANG_.invokeStatic(client.clj:149)
+	at maelstrom.client$rpc_BANG_.invoke(client.clj:140)
+	at maelstrom.workload.pn_counter$fn__19518$add_BANG___19519.invoke(pn_counter.clj:20)
+	at maelstrom.workload.pn_counter$fn__19518$add_BANG___19519.invoke(pn_counter.clj:20)
+	at maelstrom.workload.pn_counter$client$reify__19540.invoke_BANG_(pn_counter.clj:47)
+	at jepsen.client.Validate.invoke_BANG_(client.clj:83)
+	at jepsen.generator.interpreter.ClientWorker.invoke_BANG_(interpreter.clj:65)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908$fn__12909.invoke(interpreter.clj:140)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908.invoke(interpreter.clj:123)
+	at clojure.core$binding_conveyor_fn$fn__5823.invoke(core.clj:2047)
+	at clojure.lang.AFn.call(AFn.java:18)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2023-11-08 13:13:03,724{GMT}	INFO	[jepsen worker 0] jepsen.util: 3	:invoke	:read	nil
+2023-11-08 13:13:03,738{GMT}	WARN	[jepsen worker 1] jepsen.generator.interpreter: Process 1 crashed
+clojure.lang.ExceptionInfo: Client read timeout
+	at slingshot.support$stack_trace.invoke(support.clj:201)
+	at maelstrom.client$recv_BANG_.invokeStatic(client.clj:98)
+	at maelstrom.client$recv_BANG_.invoke(client.clj:81)
+	at maelstrom.client$send_PLUS_recv_BANG_.invokeStatic(client.clj:123)
+	at maelstrom.client$send_PLUS_recv_BANG_.invoke(client.clj:119)
+	at maelstrom.client$rpc_BANG_.invokeStatic(client.clj:149)
+	at maelstrom.client$rpc_BANG_.invoke(client.clj:140)
+	at maelstrom.workload.pn_counter$fn__19518$add_BANG___19519.invoke(pn_counter.clj:20)
+	at maelstrom.workload.pn_counter$fn__19518$add_BANG___19519.invoke(pn_counter.clj:20)
+	at maelstrom.workload.pn_counter$client$reify__19540.invoke_BANG_(pn_counter.clj:47)
+	at jepsen.client.Validate.invoke_BANG_(client.clj:83)
+	at jepsen.generator.interpreter.ClientWorker.invoke_BANG_(interpreter.clj:65)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908$fn__12909.invoke(interpreter.clj:140)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908.invoke(interpreter.clj:123)
+	at clojure.core$binding_conveyor_fn$fn__5823.invoke(core.clj:2047)
+	at clojure.lang.AFn.call(AFn.java:18)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2023-11-08 13:13:03,745{GMT}	INFO	[jepsen worker 1] jepsen.util: 4	:invoke	:read	nil
+2023-11-08 13:13:03,753{GMT}	WARN	[jepsen worker 2] jepsen.generator.interpreter: Process 5 crashed
+clojure.lang.ExceptionInfo: Client read timeout
+	at slingshot.support$stack_trace.invoke(support.clj:201)
+	at maelstrom.client$recv_BANG_.invokeStatic(client.clj:98)
+	at maelstrom.client$recv_BANG_.invoke(client.clj:81)
+	at maelstrom.client$send_PLUS_recv_BANG_.invokeStatic(client.clj:123)
+	at maelstrom.client$send_PLUS_recv_BANG_.invoke(client.clj:119)
+	at maelstrom.client$rpc_BANG_.invokeStatic(client.clj:149)
+	at maelstrom.client$rpc_BANG_.invoke(client.clj:140)
+	at maelstrom.workload.pn_counter$fn__19529$read__19530.invoke(pn_counter.clj:27)
+	at maelstrom.workload.pn_counter$fn__19529$read__19530.invoke(pn_counter.clj:27)
+	at maelstrom.workload.pn_counter$client$reify__19540.invoke_BANG_(pn_counter.clj:50)
+	at jepsen.client.Validate.invoke_BANG_(client.clj:83)
+	at jepsen.generator.interpreter.ClientWorker.invoke_BANG_(interpreter.clj:65)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908$fn__12909.invoke(interpreter.clj:140)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908.invoke(interpreter.clj:123)
+	at clojure.core$binding_conveyor_fn$fn__5823.invoke(core.clj:2047)
+	at clojure.lang.AFn.call(AFn.java:18)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2023-11-08 13:13:03,758{GMT}	INFO	[jepsen worker 2] jepsen.util: 8	:invoke	:add	2
+2023-11-08 13:13:08,729{GMT}	WARN	[jepsen worker 0] jepsen.generator.interpreter: Process 3 crashed
+clojure.lang.ExceptionInfo: Client read timeout
+	at slingshot.support$stack_trace.invoke(support.clj:201)
+	at maelstrom.client$recv_BANG_.invokeStatic(client.clj:98)
+	at maelstrom.client$recv_BANG_.invoke(client.clj:81)
+	at maelstrom.client$send_PLUS_recv_BANG_.invokeStatic(client.clj:123)
+	at maelstrom.client$send_PLUS_recv_BANG_.invoke(client.clj:119)
+	at maelstrom.client$rpc_BANG_.invokeStatic(client.clj:149)
+	at maelstrom.client$rpc_BANG_.invoke(client.clj:140)
+	at maelstrom.workload.pn_counter$fn__19529$read__19530.invoke(pn_counter.clj:27)
+	at maelstrom.workload.pn_counter$fn__19529$read__19530.invoke(pn_counter.clj:27)
+	at maelstrom.workload.pn_counter$client$reify__19540.invoke_BANG_(pn_counter.clj:50)
+	at jepsen.client.Validate.invoke_BANG_(client.clj:83)
+	at jepsen.generator.interpreter.ClientWorker.invoke_BANG_(interpreter.clj:65)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908$fn__12909.invoke(interpreter.clj:140)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908.invoke(interpreter.clj:123)
+	at clojure.core$binding_conveyor_fn$fn__5823.invoke(core.clj:2047)
+	at clojure.lang.AFn.call(AFn.java:18)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2023-11-08 13:13:08,731{GMT}	INFO	[jepsen worker 0] jepsen.util: 6	:invoke	:read	nil
+2023-11-08 13:13:08,750{GMT}	WARN	[jepsen worker 1] jepsen.generator.interpreter: Process 4 crashed
+clojure.lang.ExceptionInfo: Client read timeout
+	at slingshot.support$stack_trace.invoke(support.clj:201)
+	at maelstrom.client$recv_BANG_.invokeStatic(client.clj:98)
+	at maelstrom.client$recv_BANG_.invoke(client.clj:81)
+	at maelstrom.client$send_PLUS_recv_BANG_.invokeStatic(client.clj:123)
+	at maelstrom.client$send_PLUS_recv_BANG_.invoke(client.clj:119)
+	at maelstrom.client$rpc_BANG_.invokeStatic(client.clj:149)
+	at maelstrom.client$rpc_BANG_.invoke(client.clj:140)
+	at maelstrom.workload.pn_counter$fn__19529$read__19530.invoke(pn_counter.clj:27)
+	at maelstrom.workload.pn_counter$fn__19529$read__19530.invoke(pn_counter.clj:27)
+	at maelstrom.workload.pn_counter$client$reify__19540.invoke_BANG_(pn_counter.clj:50)
+	at jepsen.client.Validate.invoke_BANG_(client.clj:83)
+	at jepsen.generator.interpreter.ClientWorker.invoke_BANG_(interpreter.clj:65)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908$fn__12909.invoke(interpreter.clj:140)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908.invoke(interpreter.clj:123)
+	at clojure.core$binding_conveyor_fn$fn__5823.invoke(core.clj:2047)
+	at clojure.lang.AFn.call(AFn.java:18)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2023-11-08 13:13:08,752{GMT}	INFO	[jepsen worker 1] jepsen.util: 7	:invoke	:read	nil
+2023-11-08 13:13:08,761{GMT}	WARN	[jepsen worker 2] jepsen.generator.interpreter: Process 8 crashed
+clojure.lang.ExceptionInfo: Client read timeout
+	at slingshot.support$stack_trace.invoke(support.clj:201)
+	at maelstrom.client$recv_BANG_.invokeStatic(client.clj:98)
+	at maelstrom.client$recv_BANG_.invoke(client.clj:81)
+	at maelstrom.client$send_PLUS_recv_BANG_.invokeStatic(client.clj:123)
+	at maelstrom.client$send_PLUS_recv_BANG_.invoke(client.clj:119)
+	at maelstrom.client$rpc_BANG_.invokeStatic(client.clj:149)
+	at maelstrom.client$rpc_BANG_.invoke(client.clj:140)
+	at maelstrom.workload.pn_counter$fn__19518$add_BANG___19519.invoke(pn_counter.clj:20)
+	at maelstrom.workload.pn_counter$fn__19518$add_BANG___19519.invoke(pn_counter.clj:20)
+	at maelstrom.workload.pn_counter$client$reify__19540.invoke_BANG_(pn_counter.clj:47)
+	at jepsen.client.Validate.invoke_BANG_(client.clj:83)
+	at jepsen.generator.interpreter.ClientWorker.invoke_BANG_(interpreter.clj:65)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908$fn__12909.invoke(interpreter.clj:140)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908.invoke(interpreter.clj:123)
+	at clojure.core$binding_conveyor_fn$fn__5823.invoke(core.clj:2047)
+	at clojure.lang.AFn.call(AFn.java:18)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2023-11-08 13:13:08,762{GMT}	INFO	[jepsen worker 2] jepsen.util: 11	:invoke	:read	nil
+2023-11-08 13:13:13,732{GMT}	WARN	[jepsen worker 0] jepsen.generator.interpreter: Process 6 crashed
+clojure.lang.ExceptionInfo: Client read timeout
+	at slingshot.support$stack_trace.invoke(support.clj:201)
+	at maelstrom.client$recv_BANG_.invokeStatic(client.clj:98)
+	at maelstrom.client$recv_BANG_.invoke(client.clj:81)
+	at maelstrom.client$send_PLUS_recv_BANG_.invokeStatic(client.clj:123)
+	at maelstrom.client$send_PLUS_recv_BANG_.invoke(client.clj:119)
+	at maelstrom.client$rpc_BANG_.invokeStatic(client.clj:149)
+	at maelstrom.client$rpc_BANG_.invoke(client.clj:140)
+	at maelstrom.workload.pn_counter$fn__19529$read__19530.invoke(pn_counter.clj:27)
+	at maelstrom.workload.pn_counter$fn__19529$read__19530.invoke(pn_counter.clj:27)
+	at maelstrom.workload.pn_counter$client$reify__19540.invoke_BANG_(pn_counter.clj:50)
+	at jepsen.client.Validate.invoke_BANG_(client.clj:83)
+	at jepsen.generator.interpreter.ClientWorker.invoke_BANG_(interpreter.clj:65)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908$fn__12909.invoke(interpreter.clj:140)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908.invoke(interpreter.clj:123)
+	at clojure.core$binding_conveyor_fn$fn__5823.invoke(core.clj:2047)
+	at clojure.lang.AFn.call(AFn.java:18)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2023-11-08 13:13:13,733{GMT}	INFO	[jepsen worker 0] jepsen.util: 9	:invoke	:read	nil
+2023-11-08 13:13:13,755{GMT}	WARN	[jepsen worker 1] jepsen.generator.interpreter: Process 7 crashed
+clojure.lang.ExceptionInfo: Client read timeout
+	at slingshot.support$stack_trace.invoke(support.clj:201)
+	at maelstrom.client$recv_BANG_.invokeStatic(client.clj:98)
+	at maelstrom.client$recv_BANG_.invoke(client.clj:81)
+	at maelstrom.client$send_PLUS_recv_BANG_.invokeStatic(client.clj:123)
+	at maelstrom.client$send_PLUS_recv_BANG_.invoke(client.clj:119)
+	at maelstrom.client$rpc_BANG_.invokeStatic(client.clj:149)
+	at maelstrom.client$rpc_BANG_.invoke(client.clj:140)
+	at maelstrom.workload.pn_counter$fn__19529$read__19530.invoke(pn_counter.clj:27)
+	at maelstrom.workload.pn_counter$fn__19529$read__19530.invoke(pn_counter.clj:27)
+	at maelstrom.workload.pn_counter$client$reify__19540.invoke_BANG_(pn_counter.clj:50)
+	at jepsen.client.Validate.invoke_BANG_(client.clj:83)
+	at jepsen.generator.interpreter.ClientWorker.invoke_BANG_(interpreter.clj:65)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908$fn__12909.invoke(interpreter.clj:140)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908.invoke(interpreter.clj:123)
+	at clojure.core$binding_conveyor_fn$fn__5823.invoke(core.clj:2047)
+	at clojure.lang.AFn.call(AFn.java:18)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2023-11-08 13:13:13,756{GMT}	INFO	[jepsen worker 1] jepsen.util: 10	:invoke	:read	nil
+2023-11-08 13:13:13,765{GMT}	WARN	[jepsen worker 2] jepsen.generator.interpreter: Process 11 crashed
+clojure.lang.ExceptionInfo: Client read timeout
+	at slingshot.support$stack_trace.invoke(support.clj:201)
+	at maelstrom.client$recv_BANG_.invokeStatic(client.clj:98)
+	at maelstrom.client$recv_BANG_.invoke(client.clj:81)
+	at maelstrom.client$send_PLUS_recv_BANG_.invokeStatic(client.clj:123)
+	at maelstrom.client$send_PLUS_recv_BANG_.invoke(client.clj:119)
+	at maelstrom.client$rpc_BANG_.invokeStatic(client.clj:149)
+	at maelstrom.client$rpc_BANG_.invoke(client.clj:140)
+	at maelstrom.workload.pn_counter$fn__19529$read__19530.invoke(pn_counter.clj:27)
+	at maelstrom.workload.pn_counter$fn__19529$read__19530.invoke(pn_counter.clj:27)
+	at maelstrom.workload.pn_counter$client$reify__19540.invoke_BANG_(pn_counter.clj:50)
+	at jepsen.client.Validate.invoke_BANG_(client.clj:83)
+	at jepsen.generator.interpreter.ClientWorker.invoke_BANG_(interpreter.clj:65)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908$fn__12909.invoke(interpreter.clj:140)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908.invoke(interpreter.clj:123)
+	at clojure.core$binding_conveyor_fn$fn__5823.invoke(core.clj:2047)
+	at clojure.lang.AFn.call(AFn.java:18)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2023-11-08 13:13:13,773{GMT}	INFO	[jepsen worker 2] jepsen.util: 14	:invoke	:read	nil
+2023-11-08 13:13:13,958{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:stop-partition	nil
+2023-11-08 13:13:13,959{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:stop-partition	:network-healed
+2023-11-08 13:13:15,122{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start-partition	:majorities-ring
+2023-11-08 13:13:15,126{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start-partition	[:isolated {"n0" #{"n2"}, "n2" #{"n1"}, "n1" #{"n0"}}]
+2023-11-08 13:13:18,738{GMT}	WARN	[jepsen worker 0] jepsen.generator.interpreter: Process 9 crashed
+clojure.lang.ExceptionInfo: Client read timeout
+	at slingshot.support$stack_trace.invoke(support.clj:201)
+	at maelstrom.client$recv_BANG_.invokeStatic(client.clj:98)
+	at maelstrom.client$recv_BANG_.invoke(client.clj:81)
+	at maelstrom.client$send_PLUS_recv_BANG_.invokeStatic(client.clj:123)
+	at maelstrom.client$send_PLUS_recv_BANG_.invoke(client.clj:119)
+	at maelstrom.client$rpc_BANG_.invokeStatic(client.clj:149)
+	at maelstrom.client$rpc_BANG_.invoke(client.clj:140)
+	at maelstrom.workload.pn_counter$fn__19529$read__19530.invoke(pn_counter.clj:27)
+	at maelstrom.workload.pn_counter$fn__19529$read__19530.invoke(pn_counter.clj:27)
+	at maelstrom.workload.pn_counter$client$reify__19540.invoke_BANG_(pn_counter.clj:50)
+	at jepsen.client.Validate.invoke_BANG_(client.clj:83)
+	at jepsen.generator.interpreter.ClientWorker.invoke_BANG_(interpreter.clj:65)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908$fn__12909.invoke(interpreter.clj:140)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908.invoke(interpreter.clj:123)
+	at clojure.core$binding_conveyor_fn$fn__5823.invoke(core.clj:2047)
+	at clojure.lang.AFn.call(AFn.java:18)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2023-11-08 13:13:18,761{GMT}	WARN	[jepsen worker 1] jepsen.generator.interpreter: Process 10 crashed
+clojure.lang.ExceptionInfo: Client read timeout
+	at slingshot.support$stack_trace.invoke(support.clj:201)
+	at maelstrom.client$recv_BANG_.invokeStatic(client.clj:98)
+	at maelstrom.client$recv_BANG_.invoke(client.clj:81)
+	at maelstrom.client$send_PLUS_recv_BANG_.invokeStatic(client.clj:123)
+	at maelstrom.client$send_PLUS_recv_BANG_.invoke(client.clj:119)
+	at maelstrom.client$rpc_BANG_.invokeStatic(client.clj:149)
+	at maelstrom.client$rpc_BANG_.invoke(client.clj:140)
+	at maelstrom.workload.pn_counter$fn__19529$read__19530.invoke(pn_counter.clj:27)
+	at maelstrom.workload.pn_counter$fn__19529$read__19530.invoke(pn_counter.clj:27)
+	at maelstrom.workload.pn_counter$client$reify__19540.invoke_BANG_(pn_counter.clj:50)
+	at jepsen.client.Validate.invoke_BANG_(client.clj:83)
+	at jepsen.generator.interpreter.ClientWorker.invoke_BANG_(interpreter.clj:65)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908$fn__12909.invoke(interpreter.clj:140)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908.invoke(interpreter.clj:123)
+	at clojure.core$binding_conveyor_fn$fn__5823.invoke(core.clj:2047)
+	at clojure.lang.AFn.call(AFn.java:18)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2023-11-08 13:13:18,776{GMT}	WARN	[jepsen worker 2] jepsen.generator.interpreter: Process 14 crashed
+clojure.lang.ExceptionInfo: Client read timeout
+	at slingshot.support$stack_trace.invoke(support.clj:201)
+	at maelstrom.client$recv_BANG_.invokeStatic(client.clj:98)
+	at maelstrom.client$recv_BANG_.invoke(client.clj:81)
+	at maelstrom.client$send_PLUS_recv_BANG_.invokeStatic(client.clj:123)
+	at maelstrom.client$send_PLUS_recv_BANG_.invoke(client.clj:119)
+	at maelstrom.client$rpc_BANG_.invokeStatic(client.clj:149)
+	at maelstrom.client$rpc_BANG_.invoke(client.clj:140)
+	at maelstrom.workload.pn_counter$fn__19529$read__19530.invoke(pn_counter.clj:27)
+	at maelstrom.workload.pn_counter$fn__19529$read__19530.invoke(pn_counter.clj:27)
+	at maelstrom.workload.pn_counter$client$reify__19540.invoke_BANG_(pn_counter.clj:50)
+	at jepsen.client.Validate.invoke_BANG_(client.clj:83)
+	at jepsen.generator.interpreter.ClientWorker.invoke_BANG_(interpreter.clj:65)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908$fn__12909.invoke(interpreter.clj:140)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908.invoke(interpreter.clj:123)
+	at clojure.core$binding_conveyor_fn$fn__5823.invoke(core.clj:2047)
+	at clojure.lang.AFn.call(AFn.java:18)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2023-11-08 13:13:18,778{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:stop-partition	nil
+2023-11-08 13:13:18,778{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:stop-partition	:network-healed
+2023-11-08 13:13:18,778{GMT}	INFO	[jepsen worker nemesis] jepsen.generator.interpreter: Waiting for recovery...
+2023-11-08 13:13:28,787{GMT}	INFO	[jepsen worker 2] jepsen.util: 17	:invoke	:read	nil
+2023-11-08 13:13:28,788{GMT}	INFO	[jepsen worker 1] jepsen.util: 13	:invoke	:read	nil
+2023-11-08 13:13:28,788{GMT}	INFO	[jepsen worker 0] jepsen.util: 12	:invoke	:read	nil
+2023-11-08 13:13:33,791{GMT}	WARN	[jepsen worker 0] jepsen.generator.interpreter: Process 12 crashed
+clojure.lang.ExceptionInfo: Client read timeout
+	at slingshot.support$stack_trace.invoke(support.clj:201)
+	at maelstrom.client$recv_BANG_.invokeStatic(client.clj:98)
+	at maelstrom.client$recv_BANG_.invoke(client.clj:81)
+	at maelstrom.client$send_PLUS_recv_BANG_.invokeStatic(client.clj:123)
+	at maelstrom.client$send_PLUS_recv_BANG_.invoke(client.clj:119)
+	at maelstrom.client$rpc_BANG_.invokeStatic(client.clj:149)
+	at maelstrom.client$rpc_BANG_.invoke(client.clj:140)
+	at maelstrom.workload.pn_counter$fn__19529$read__19530.invoke(pn_counter.clj:27)
+	at maelstrom.workload.pn_counter$fn__19529$read__19530.invoke(pn_counter.clj:27)
+	at maelstrom.workload.pn_counter$client$reify__19540.invoke_BANG_(pn_counter.clj:50)
+	at jepsen.client.Validate.invoke_BANG_(client.clj:83)
+	at jepsen.generator.interpreter.ClientWorker.invoke_BANG_(interpreter.clj:65)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908$fn__12909.invoke(interpreter.clj:140)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908.invoke(interpreter.clj:123)
+	at clojure.core$binding_conveyor_fn$fn__5823.invoke(core.clj:2047)
+	at clojure.lang.AFn.call(AFn.java:18)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2023-11-08 13:13:33,791{GMT}	WARN	[jepsen worker 1] jepsen.generator.interpreter: Process 13 crashed
+clojure.lang.ExceptionInfo: Client read timeout
+	at slingshot.support$stack_trace.invoke(support.clj:201)
+	at maelstrom.client$recv_BANG_.invokeStatic(client.clj:98)
+	at maelstrom.client$recv_BANG_.invoke(client.clj:81)
+	at maelstrom.client$send_PLUS_recv_BANG_.invokeStatic(client.clj:123)
+	at maelstrom.client$send_PLUS_recv_BANG_.invoke(client.clj:119)
+	at maelstrom.client$rpc_BANG_.invokeStatic(client.clj:149)
+	at maelstrom.client$rpc_BANG_.invoke(client.clj:140)
+	at maelstrom.workload.pn_counter$fn__19529$read__19530.invoke(pn_counter.clj:27)
+	at maelstrom.workload.pn_counter$fn__19529$read__19530.invoke(pn_counter.clj:27)
+	at maelstrom.workload.pn_counter$client$reify__19540.invoke_BANG_(pn_counter.clj:50)
+	at jepsen.client.Validate.invoke_BANG_(client.clj:83)
+	at jepsen.generator.interpreter.ClientWorker.invoke_BANG_(interpreter.clj:65)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908$fn__12909.invoke(interpreter.clj:140)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908.invoke(interpreter.clj:123)
+	at clojure.core$binding_conveyor_fn$fn__5823.invoke(core.clj:2047)
+	at clojure.lang.AFn.call(AFn.java:18)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2023-11-08 13:13:33,791{GMT}	WARN	[jepsen worker 2] jepsen.generator.interpreter: Process 17 crashed
+clojure.lang.ExceptionInfo: Client read timeout
+	at slingshot.support$stack_trace.invoke(support.clj:201)
+	at maelstrom.client$recv_BANG_.invokeStatic(client.clj:98)
+	at maelstrom.client$recv_BANG_.invoke(client.clj:81)
+	at maelstrom.client$send_PLUS_recv_BANG_.invokeStatic(client.clj:123)
+	at maelstrom.client$send_PLUS_recv_BANG_.invoke(client.clj:119)
+	at maelstrom.client$rpc_BANG_.invokeStatic(client.clj:149)
+	at maelstrom.client$rpc_BANG_.invoke(client.clj:140)
+	at maelstrom.workload.pn_counter$fn__19529$read__19530.invoke(pn_counter.clj:27)
+	at maelstrom.workload.pn_counter$fn__19529$read__19530.invoke(pn_counter.clj:27)
+	at maelstrom.workload.pn_counter$client$reify__19540.invoke_BANG_(pn_counter.clj:50)
+	at jepsen.client.Validate.invoke_BANG_(client.clj:83)
+	at jepsen.generator.interpreter.ClientWorker.invoke_BANG_(interpreter.clj:65)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908$fn__12909.invoke(interpreter.clj:140)
+	at jepsen.generator.interpreter$spawn_worker$fn__12908.invoke(interpreter.clj:123)
+	at clojure.core$binding_conveyor_fn$fn__5823.invoke(core.clj:2047)
+	at clojure.lang.AFn.call(AFn.java:18)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2023-11-08 13:13:33,831{GMT}	INFO	[jepsen test runner] jepsen.core: Run complete, writing
+2023-11-08 13:13:33,906{GMT}	INFO	[jepsen node n0] maelstrom.db: Tearing down n0
+2023-11-08 13:13:33,906{GMT}	INFO	[jepsen node n1] maelstrom.db: Tearing down n1
+2023-11-08 13:13:33,906{GMT}	INFO	[jepsen node n2] maelstrom.db: Tearing down n2
+2023-11-08 13:13:35,814{GMT}	INFO	[jepsen node n0] maelstrom.net: Shutting down Maelstrom network
+2023-11-08 13:13:35,816{GMT}	INFO	[jepsen test runner] jepsen.core: Analyzing...
+2023-11-08 13:13:36,717{GMT}	INFO	[jepsen test runner] jepsen.core: Analysis complete
+2023-11-08 13:13:36,761{GMT}	INFO	[jepsen results] jepsen.store: Wrote /Users/bharath12345/learn/maelstrom-echo/store/g-counter/20231108T131256.464+0530/results.edn
+2023-11-08 13:13:36,846{GMT}	INFO	[jepsen test runner] jepsen.core: {:perf {:latency-graph {:valid? true},
+        :rate-graph {:valid? true},
+        :valid? true},
+ :timeline {:valid? true},
+ :exceptions {:valid? true,
+              :exceptions ({:count 16,
+                            :class clojure.lang.ExceptionInfo,
+                            :example #jepsen.history.Op{:index 9,
+                                                        :time 64379531,
+                                                        :type :info,
+                                                        :process 2,
+                                                        :f :add,
+                                                        :value 4,
+                                                        :exception {:via [{:type clojure.lang.ExceptionInfo,
+                                                                           :message "throw+: {:type :rpc-error, :code 22, :name :precondition-failed, :definite? true, :body {:code 22, :in_reply_to 1, :text \"current value 3 is not 0\", :type \"error\"}}",
+                                                                           :data {:type :rpc-error,
+                                                                                  :code 22,
+                                                                                  :name :precondition-failed,
+                                                                                  :definite? true,
+                                                                                  :body {:code 22,
+                                                                                         :in_reply_to 1,
+                                                                                         :text "current value 3 is not 0",
+                                                                                         :type "error"}},
+                                                                           :at [slingshot.support$stack_trace
+                                                                                invoke
+                                                                                "support.clj"
+                                                                                201]}],
+                                                                    :trace [[slingshot.support$stack_trace
+                                                                             invoke
+                                                                             "support.clj"
+                                                                             201]
+                                                                            [maelstrom.client$throw_errors_BANG_
+                                                                             invokeStatic
+                                                                             "client.clj"
+                                                                             133]
+                                                                            [maelstrom.client$throw_errors_BANG_
+                                                                             invoke
+                                                                             "client.clj"
+                                                                             125]
+                                                                            [maelstrom.client$rpc_BANG_
+                                                                             invokeStatic
+                                                                             "client.clj"
+                                                                             150]
+                                                                            [maelstrom.client$rpc_BANG_
+                                                                             invoke
+                                                                             "client.clj"
+                                                                             140]
+                                                                            [maelstrom.workload.pn_counter$fn__19518$add_BANG___19519
+                                                                             invoke
+                                                                             "pn_counter.clj"
+                                                                             20]
+                                                                            [maelstrom.workload.pn_counter$fn__19518$add_BANG___19519
+                                                                             invoke
+                                                                             "pn_counter.clj"
+                                                                             20]
+                                                                            [maelstrom.workload.pn_counter$client$reify__19540
+                                                                             invoke_BANG_
+                                                                             "pn_counter.clj"
+                                                                             47]
+                                                                            [jepsen.client.Validate
+                                                                             invoke_BANG_
+                                                                             "client.clj"
+                                                                             83]
+                                                                            [jepsen.generator.interpreter.ClientWorker
+                                                                             invoke_BANG_
+                                                                             "interpreter.clj"
+                                                                             65]
+                                                                            [jepsen.generator.interpreter$spawn_worker$fn__12908$fn__12909
+                                                                             invoke
+                                                                             "interpreter.clj"
+                                                                             140]
+                                                                            [jepsen.generator.interpreter$spawn_worker$fn__12908
+                                                                             invoke
+                                                                             "interpreter.clj"
+                                                                             123]
+                                                                            [clojure.core$binding_conveyor_fn$fn__5823
+                                                                             invoke
+                                                                             "core.clj"
+                                                                             2047]
+                                                                            [clojure.lang.AFn
+                                                                             call
+                                                                             "AFn.java"
+                                                                             18]
+                                                                            [java.util.concurrent.FutureTask
+                                                                             run
+                                                                             "FutureTask.java"
+                                                                             317]
+                                                                            [java.util.concurrent.ThreadPoolExecutor
+                                                                             runWorker
+                                                                             "ThreadPoolExecutor.java"
+                                                                             1144]
+                                                                            [java.util.concurrent.ThreadPoolExecutor$Worker
+                                                                             run
+                                                                             "ThreadPoolExecutor.java"
+                                                                             642]
+                                                                            [java.lang.Thread
+                                                                             run
+                                                                             "Thread.java"
+                                                                             1583]],
+                                                                    :cause "throw+: {:type :rpc-error, :code 22, :name :precondition-failed, :definite? true, :body {:code 22, :in_reply_to 1, :text \"current value 3 is not 0\", :type \"error\"}}",
+                                                                    :data {:type :rpc-error,
+                                                                           :code 22,
+                                                                           :name :precondition-failed,
+                                                                           :definite? true,
+                                                                           :body {:code 22,
+                                                                                  :in_reply_to 1,
+                                                                                  :text "current value 3 is not 0",
+                                                                                  :type "error"}}},
+                                                        :error "indeterminate: throw+: {:type :rpc-error, :code 22, :name :precondition-failed, :definite? true, :body {:code 22, :in_reply_to 1, :text \"current value 3 is not 0\", :type \"error\"}}"}})},
+ :stats {:valid? false,
+         :count 18,
+         :ok-count 2,
+         :fail-count 0,
+         :info-count 16,
+         :by-f {:add {:valid? true,
+                      :count 6,
+                      :ok-count 2,
+                      :fail-count 0,
+                      :info-count 4},
+                :read {:valid? false,
+                       :count 12,
+                       :ok-count 0,
+                       :fail-count 0,
+                       :info-count 12}}},
+ :availability {:valid? true, :ok-fraction 0.11111111},
+ :net {:all {:send-count 69,
+             :recv-count 69,
+             :msg-count 69,
+             :msgs-per-op 3.8333333},
+       :clients {:send-count 27, :recv-count 27, :msg-count 27},
+       :servers {:send-count 42,
+                 :recv-count 42,
+                 :msg-count 42,
+                 :msgs-per-op 2.3333333},
+       :valid? true},
+ :workload {:valid? true,
+            :errors nil,
+            :final-reads (),
+            :acceptable ([3 3] [5 13] [15 15])},
+ :valid? false}
+
+
+Analysis invalid! (ﾉಥ益ಥ）ﾉ ┻━┻

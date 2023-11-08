@@ -1,0 +1,24 @@
+2023/11/08 13:12:58 Received {c0 n1 {"type":"init","node_id":"n1","node_ids":["n0","n1","n2"],"msg_id":1}}
+2023/11/08 13:12:58 Node n1 initialized
+2023/11/08 13:12:58 Sent {"src":"n1","dest":"c0","body":{"in_reply_to":1,"type":"init_ok"}}
+2023/11/08 13:12:58 Received {c8 n1 {"delta":0,"type":"add","msg_id":1}}
+2023/11/08 13:12:58 Sent {"src":"n1","dest":"seq-kv","body":{"key":"key","msg_id":1,"type":"read"}}
+2023/11/08 13:12:58 Received {seq-kv n1 {"type":"error","code":20,"text":"key does not exist","in_reply_to":1}}
+2023/11/08 13:12:58 Sent {"src":"n1","dest":"seq-kv","body":{"create_if_not_exists":true,"from":0,"key":"key","msg_id":2,"to":0,"type":"cas"}}
+2023/11/08 13:12:58 Received {seq-kv n1 {"type":"cas_ok","in_reply_to":2}}
+2023/11/08 13:12:58 Sent {"src":"n1","dest":"c8","body":{"in_reply_to":1,"type":"add_ok"}}
+2023/11/08 13:12:58 Received {c8 n1 {"delta":3,"type":"add","msg_id":2}}
+2023/11/08 13:12:58 Sent {"src":"n1","dest":"seq-kv","body":{"key":"key","msg_id":3,"type":"read"}}
+2023/11/08 13:12:58 Received {seq-kv n1 {"type":"read_ok","value":3,"in_reply_to":3}}
+2023/11/08 13:13:03 Received {c11 n1 {"type":"read","msg_id":1}}
+2023/11/08 13:13:03 Sent {"src":"n1","dest":"seq-kv","body":{"key":"key","msg_id":4,"type":"read"}}
+2023/11/08 13:13:03 Received {seq-kv n1 {"type":"read_ok","value":3,"in_reply_to":4}}
+2023/11/08 13:13:08 Received {c14 n1 {"type":"read","msg_id":1}}
+2023/11/08 13:13:08 Sent {"src":"n1","dest":"seq-kv","body":{"key":"key","msg_id":5,"type":"read"}}
+2023/11/08 13:13:08 Received {seq-kv n1 {"type":"read_ok","value":3,"in_reply_to":5}}
+2023/11/08 13:13:13 Received {c17 n1 {"type":"read","msg_id":1}}
+2023/11/08 13:13:13 Sent {"src":"n1","dest":"seq-kv","body":{"key":"key","msg_id":6,"type":"read"}}
+2023/11/08 13:13:13 Received {seq-kv n1 {"type":"read_ok","value":3,"in_reply_to":6}}
+2023/11/08 13:13:28 Received {c20 n1 {"type":"read","msg_id":1}}
+2023/11/08 13:13:28 Sent {"src":"n1","dest":"seq-kv","body":{"key":"key","msg_id":7,"type":"read"}}
+2023/11/08 13:13:28 Received {seq-kv n1 {"type":"read_ok","value":3,"in_reply_to":7}}

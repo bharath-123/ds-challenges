@@ -1,0 +1,32 @@
+2023/11/08 13:43:01 Received {c1 n1 {"type":"init","node_id":"n1","node_ids":["n0","n1","n2"],"msg_id":1}}
+2023/11/08 13:43:01 Node n1 initialized
+2023/11/08 13:43:01 Sent {"src":"n1","dest":"c1","body":{"in_reply_to":1,"type":"init_ok"}}
+2023/11/08 13:43:02 Received {c6 n1 {"type":"read","msg_id":1}}
+2023/11/08 13:43:02 Sent {"src":"n1","dest":"seq-kv","body":{"key":"key","msg_id":1,"type":"read"}}
+2023/11/08 13:43:02 Received {seq-kv n1 {"type":"error","code":20,"text":"key does not exist","in_reply_to":1}}
+2023/11/08 13:43:02 Sent {"src":"n1","dest":"c6","body":{"in_reply_to":1,"type":"read_ok","value":0}}
+2023/11/08 13:43:02 Received {c6 n1 {"type":"read","msg_id":2}}
+2023/11/08 13:43:02 Sent {"src":"n1","dest":"seq-kv","body":{"key":"key","msg_id":2,"type":"read"}}
+2023/11/08 13:43:02 Received {seq-kv n1 {"type":"error","code":20,"text":"key does not exist","in_reply_to":2}}
+2023/11/08 13:43:02 Sent {"src":"n1","dest":"c6","body":{"in_reply_to":2,"type":"read_ok","value":0}}
+2023/11/08 13:43:02 Received {c6 n1 {"delta":2,"type":"add","msg_id":3}}
+2023/11/08 13:43:02 Sent {"src":"n1","dest":"seq-kv","body":{"key":"key","msg_id":3,"type":"read"}}
+2023/11/08 13:43:02 Received {seq-kv n1 {"type":"error","code":20,"text":"key does not exist","in_reply_to":3}}
+2023/11/08 13:43:02 Sent {"src":"n1","dest":"seq-kv","body":{"create_if_not_exists":true,"from":0,"key":"key","msg_id":4,"to":2,"type":"cas"}}
+2023/11/08 13:43:02 Received {seq-kv n1 {"type":"cas_ok","in_reply_to":4}}
+2023/11/08 13:43:02 Sent {"src":"n1","dest":"c6","body":{"in_reply_to":3,"type":"add_ok"}}
+2023/11/08 13:43:02 Received {c6 n1 {"delta":0,"type":"add","msg_id":4}}
+2023/11/08 13:43:02 Sent {"src":"n1","dest":"seq-kv","body":{"key":"key","msg_id":5,"type":"read"}}
+2023/11/08 13:43:02 Received {seq-kv n1 {"type":"read_ok","value":2,"in_reply_to":5}}
+2023/11/08 13:43:04 Sent {"src":"n1","dest":"n0","body":{"type":"recv_oplog","oplog":[2]}}
+2023/11/08 13:43:04 Sent {"src":"n1","dest":"n2","body":{"type":"recv_oplog","oplog":[2]}}
+2023/11/08 13:43:04 Received {n0 n1 {"type":"recv_oplog","oplog":[]}}
+2023/11/08 13:43:04 Sent {"src":"n1","dest":"n0","body":{"in_reply_to":0,"type":"recv_oplog_ok"}}
+2023/11/08 13:43:04 Received {n2 n1 {"type":"recv_oplog","oplog":[0]}}
+2023/11/08 13:43:04 Sent {"src":"n1","dest":"seq-kv","body":{"key":"key","msg_id":6,"type":"read"}}
+2023/11/08 13:43:04 Received {seq-kv n1 {"type":"read_ok","value":2,"in_reply_to":6}}
+2023/11/08 13:43:04 Sent {"src":"n1","dest":"seq-kv","body":{"create_if_not_exists":true,"from":2,"key":"key","msg_id":7,"to":0,"type":"cas"}}
+2023/11/08 13:43:04 Received {seq-kv n1 {"type":"cas_ok","in_reply_to":7}}
+2023/11/08 13:43:04 Sent {"src":"n1","dest":"n2","body":{"in_reply_to":0,"type":"recv_oplog_ok"}}
+2023/11/08 13:43:04 Received {n2 n1 {"code":22,"in_reply_to":0,"text":"current value 0 is not 2","type":"error"}}
+2023/11/08 13:43:04 No handler for {"id":56,"src":"n2","dest":"n1","body":{"code":22,"in_reply_to":0,"text":"current value 0 is not 2","type":"error"}}

@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"log"
+	"sync"
+	"time"
 
 	maelstrom "github.com/jepsen-io/maelstrom/demo/go"
 )
@@ -28,9 +30,21 @@ type ReadResponse struct {
 	Value int    `json:"value"`
 }
 
+type OplogResponse struct {
+	Type string `json:"type"`
+}
+
+type OplogRequest struct {
+	Type  string `json:"type"`
+	Oplog []int  `json:"oplog"`
+}
+
 func main() {
 	n := maelstrom.NewNode()
 	kv := maelstrom.NewSeqKV(n)
+
+	opLogMutex := sync.RWMutex{}
+	opLog := []int{}
 
 	n.Handle("add", func(msg maelstrom.Message) error {
 		// Unmarshal the message body as an loosely-typed map.
@@ -48,6 +62,10 @@ func main() {
 		}
 
 		newVal := val + body.Delta
+
+		opLogMutex.Lock()
+		opLog = append(opLog, body.Delta)
+		opLogMutex.Unlock()
 
 		err = kv.CompareAndSwap(context.Background(), KEY_NAME, val, newVal, true)
 		if err != nil {
@@ -82,6 +100,67 @@ func main() {
 		return n.Reply(msg, resp)
 
 	})
+
+	n.Handle("recv_oplog", func(msg maelstrom.Message) error {
+		var body OplogRequest
+		if err := json.Unmarshal(msg.Body, &body); err != nil {
+			return err
+		}
+
+		rcvdOplog := body.Oplog
+		currOplogLen := 0
+
+		opLogMutex.RLock()
+		currOplogLen = len(opLog)
+		opLogMutex.RUnlock()
+
+		if currOplogLen > len(rcvdOplog) {
+			return n.Reply(msg, OplogResponse{Type: "recv_oplog_ok"})
+		}
+
+		newValue := 0
+		for i := currOplogLen; i < len(rcvdOplog); i++ {
+			newValue += rcvdOplog[i]
+		}
+
+		currentValue, err := kv.ReadInt(context.Background(), KEY_NAME)
+		if err != nil {
+			return err
+		}
+
+		err = kv.CompareAndSwap(context.Background(), KEY_NAME, currentValue, newValue, true)
+		if err != nil {
+			return err
+		}
+
+		return n.Reply(msg, OplogResponse{Type: "recv_oplog_ok"})
+	})
+
+	go func() {
+		for {
+			nodes := n.NodeIDs()
+			currNodeId := n.ID()
+			for _, node := range nodes {
+				if node == currNodeId {
+					continue
+				}
+
+				opLogMutex.RLock()
+				request := OplogRequest{
+					Type:  "recv_oplog",
+					Oplog: opLog,
+				}
+				opLogMutex.RUnlock()
+
+				err := n.Send(node, request)
+				if err != nil {
+					log.Printf("error sending oplog to node %s: %s", node, err)
+				}
+			}
+
+			time.Sleep(3 * time.Second)
+		}
+	}()
 
 	if err := n.Run(); err != nil {
 		log.Fatal(err)
